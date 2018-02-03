@@ -16,6 +16,14 @@ h3 {
   max-width: 360px;
 }
 
+.game-output {
+  color: white;
+  background: #222;
+  border: 2px solid white;
+  border-radius: 5px;
+  font-size: 1.3rem;
+}
+
 .light-bg {
   background: rgba(30,30,30,.5);
   border-radius: 5px;
