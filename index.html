@@ -1,47 +1,124 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link 
-    rel="stylesheet" 
-    href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" 
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
-    crossorigin="anonymous"
-    >
+  <!-- Bootstrap CSS -->
+  <link 
+  rel="stylesheet" 
+  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" 
+  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
+  crossorigin="anonymous"
+  >
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="./assets/css/style.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="./assets/css/style.css">
 
-    <title>Star Wars RPG</title>
-  </head>
-  <body>
-    <h1>Hello, world!</h1>
+  <title>Star Wars RPG</title>
+</head>
+<body>
 
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script
-      src="https://code.jquery.com/jquery-3.3.1.min.js"
-      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-      crossorigin="anonymous">
-    </script>
+  <!-- Page container -->
+  <div class="container">
 
-    <script 
-      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" 
-      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" 
-      crossorigin="anonymous">
-    </script>
+    <!-- Page Title -->
+    <div class="row mt-3 mb-5 justify-content-center">
+      <div class="col text-center">
+        <img src="./assets/images/star-wars-logo.png" alt="Star Wars Logo">
+      </div>
+    </div> <!-- End 'Page Title' -->
 
-    <script 
-      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" 
-      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" 
-      crossorigin="anonymous">
-    </script>
+    <!-- The Arena -->
+    <div class="row">
+      <div class="col">
+        <div class="row text-center align-items-center mb-0">
+          <div class="col-3 offset-2">
+            <img class="character ml-1 mr-1" src="./assets/images/boba.jpg" alt="Picture of ">
+          </div>
+          <div class="col-2">
+            <h3 class="mb-3">VERSUS</h3>
+          </div>
+          <div class="col-3">
+            <img class="character ml-1 mr-1" src="./assets/images/darth.jpg" alt="Picture of ">
+          </div>
+        </div>
+        <div class="row mb-5">
+          <div class="col text-center">
+            <p>
+              <button class="btn btn-danger">ATTACK</button>
+              <h1 class="inline light-bg pt-2 pb-2 pl-5 pr-5">The Arena</h1>
+            </p>
+          </div>
+        </div>
+      </div> <!-- End 'The Arena' main column -->
+    </div> <!-- End 'The Arena' row -->
 
-    <!-- Custom JavaScript -->
-    <script src="./assets/javascript/game.js"></script>
+    <!-- Character/enemy choice -->
+    <div class="row text-center section-border pt-4 pb-2">
+      <!-- Choose character -->
+      <div class="col">
+        <div class="row mb-4">
+          <div class="col-12">
+            <h3 class="inline light-bg p-2">Choose Character:</h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <img class="character ml-1 mr-1 mt-1 mb-1" src="./assets/images/boba.jpg" alt="Picture of ">
+            <img class="character ml-1 mr-1 mt-1 mb-1" src="./assets/images/darth.jpg" alt="Picture of ">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <img class="character ml-1 mr-1 mt-1 mb-1" src="./assets/images/hans.jpg" alt="Picture of ">
+            <img class="character ml-1 mr-1 mt-1 mb-1" src="./assets/images/yoda.jpg" alt="Picture of ">
+          </div>
+        </div> 
+      </div> <!-- End 'Choose character' column -->
+      <!-- Choose Who To Attack -->
+      <div class="col">
+        <div class="row mb-4">
+          <div class="col-12">
+            <h2 class="inline light-bg p-2">Choose Enemy:</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <img class="character ml-1 mr-1 mt-1 mb-1" src="./assets/images/boba.jpg" alt="Picture of ">
+            <img class="character ml-1 mr-1 mt-1 mb-1" src="./assets/images/darth.jpg" alt="Picture of ">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <img class="character ml-1 mr-1 mt-1 mb-1" src="./assets/images/hans.jpg" alt="Picture of ">
+            <img class="character ml-1 mr-1 mt-1 mb-1" src="./assets/images/yoda.jpg" alt="Picture of ">
+          </div>
+        </div>
+      </div> <!-- End 'Choose Who To Attack' column-->
+    </div> <!-- End 'Character/enemy choice' -->
+  </div> <!-- End div 'container' -->
 
-  </body>
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous">
+</script>
+<script 
+src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" 
+integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" 
+crossorigin="anonymous">
+</script>
+<script 
+src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" 
+integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" 
+crossorigin="anonymous">
+</script>
+
+<!-- Custom JavaScript -->
+<script src="./assets/javascript/game.js"></script>
+
+</body>
 </html>
