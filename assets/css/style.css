@@ -1,12 +1,23 @@
+@import url('https://fonts.googleapis.com/css?family=Orbitron');
+
 body {
   background: url('../images/stars-bg.svg') no-repeat fixed bottom;
   background-size: cover;
   color: #fff;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
+  font-family: 'Orbitron', sans-serif;
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+.logo {
+  max-width: 360px;
 }
 
 .light-bg {
-  background: rgba(150,150,150,.4);
+  background: rgba(30,30,30,.5);
   border-radius: 5px;
   border: 1px solid white;
 }
@@ -16,7 +27,7 @@ body {
 }
 
 .character {
-  background: #eee;
+  background: #222;
   padding: 5px;
   border: 2px solid yellow;
   border-radius: 5px;
@@ -26,7 +37,13 @@ body {
   opacity: .8;
 }
 
+.temp-image {
+  width: 90px;
+  height: 120px;
+}
+
 .section-border {
-  border: 1px solid yellow;
+  border: 2px solid yellow;
   border-radius: 5px;
+  background: rgba(255,255,255,.2);
 }
