@@ -17,9 +17,6 @@ js-enemy-2
 js-enemy-3
 js-enemy-4
 
-js-attack-button
-
-js-reset-button
-
+js-attack-reset-button
 
 */
