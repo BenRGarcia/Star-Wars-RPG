@@ -152,7 +152,7 @@ const gameProps = {
     if (typeof points === "number") {
       this._enemy._healthPoints -= points;
     }
-    return this._hero._healthPoints;
+    return this._enemy._healthPoints;
   },
 
   isHeroDefeated() {
@@ -174,7 +174,7 @@ const gameProps = {
     } else {
       return false;
     }
-  },
+  }
 };
 
 /*
@@ -263,6 +263,12 @@ $(function() {
   });
 
   // User clicks 'attack' button
+  $().on('click', () => {
+
+  });
 
   // User clicks 'reset' button, only visible after loss or win
+  $().on('click', () => {
+    
+  });
 });
