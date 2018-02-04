@@ -3,150 +3,179 @@
  *          Directly manages the data, logic and rules of the application.
  */
 
-// Parent character class
-class Character {
-
-  constructor(name, healthPoints) {
-    this._name = name;
-    this._healthPoints = healthPoints;
-  }
-
-  get name() {
-    return this._name;
-  }
-
-  get healthPoints() {
-    return this._healthPoints;
-  }
-
-  damageSustained(points) {
-    if (typeof points === "number") {
-      this._healthPoints -= points;
+// Object to manage characters available for game
+const availableCharacters = {
+  _characterArray: [
+    {
+      _name: "Boba Fett",
+      _healthPoints: 100,
+      _baseAttackPower: 6,
+      _attackPower: 6,
+      _counterAttackPower: 10,
+      _imgSrc: "../images/boba.jpg",
+      _imgArenaSrc: "../images/fight-boba.jpg",
+      _imgAlt: "Picture of Boba Fett"
+    },
+    {
+      _name: "Darth Maul",
+      _healthPoints: 120,
+      _baseAttackPower: 6,
+      _attackPower: 6,
+      _counterAttackPower: 15,
+      _imgSrc: "../images/darth.jpg",
+      _imgArenaSrc: "../images/fight-darth.png",
+      _imgAlt: "Picture of Darth Maul"
+    },
+    {
+      _name: "Hans Solo",
+      _healthPoints: 150,
+      _baseAttackPower: 6,
+      _attackPower: 6,
+      _counterAttackPower: 20,
+      _imgSrc: "../images/hans.jpg",
+      _imgArenaSrc: "../images/fight-hans.jpg",
+      _imgAlt: "Picture of Hans Solo"
+    },
+    {
+      _name: "Yoda",
+      _healthPoints: 180,
+      _baseAttackPower: 6,
+      _attackPower: 6,
+      _counterAttackPower: 25,
+      _imgSrc: "../images/yoda.jpg",
+      _imgArenaSrc: "../images/fight-yoda.jpg",
+      _imgAlt: "Picture of Yoda"
     }
-    return points;
-  }
+  ],
 
-  isDefeated() {
-    if (this.healthPoints <= 0) return true;
-    else return false;
-  }
-}
+  _unavailable: [],
 
-// Child class, inherits from Character
-class ChosenCharacter extends Character {
-
-  constructor(name, healthPoints, attackPower) {
-    super(name, healthPoints);
-    this._increaseAttackPower = attackPower;
-    this._attackPower = attackPower;
-  }
-
-  get attackPower() {
-    return this._attackPower;
-  }
-
-  increaseAttackPower() {
-    this._attackPower += this._increaseAttackPower;
-    return this._attackPower;
-  }
-}
-
-// Child class, inherits from Character
-class ChosenEnemy extends Character {
-
-  constructor(name, healthPoints, counterAttackPower) {
-    super(name, healthPoints);
-    this._counterAttackPower = counterAttackPower;
-  }
-
-  get counterAttackPower() {
-    return this._counterAttackPower;
-  }
-}
-
-// Object to dynamically create character/enemy objects 
-const gameCharacters = {
-  _maxEnemyCount: 3,
-  _maxCharacterCount: 1,
-  _enemies: [],
-  _chosenCharacter: [],
-
-  get currentEnemy() {
-    return this._enemies[0];
+  // Returns chosen character object
+  getCharacter(name) {
+    // Method call example: availableCharacters.getCharacter("Yoda")
+    for (let i = 0; i < this._characterArray.length; i++) {
+      if (this._characterArray[i]._name === name) {
+        this.addToUnavailable(i);
+        this.deleteCharacter(i);
+        return this._characterArray[i];
+      }
+    }
   },
 
-  get currentCharacter() {
-    return this._chosenCharacter[0];
+  // Add chosen character to _unavailable array
+  addToUnavailable(index) {
+    this._unavailable.push(this._characterArray[i])
+  }
+
+  // Remove character from available game play
+  deleteCharacter(index) {
+    this._characterArray.splice(index, 1);
   },
 
-  // Test if all enemies defeated
-  get enemiesRemain() {
-    if (this._maxEnemyCount - this._enemies.length === 0) {
+  resetCharacters() {
+    for (let i = 0; i < this._unavailable.length; i++) {
+      this._characterArray.push(this._unavailable[i]);
+    }
+    this._unavailable = [];
+  }
+};
+
+// Object to manage the state of game
+const gameProps = {
+  _hero: {},
+  _enemy: {},
+
+  set hero(characterObj) {
+    if (Object.keys(characterObj).indexOf("_healthPoints")    !== -1 &&
+        Object.keys(characterObj).indexOf("_baseAttackPower") !== -1 &&
+        Object.keys(characterObj).indexOf("_attackPower")     !== -1 &&
+        Object.keys(characterObj).indexOf("_imgSrc")          !== -1 &&
+        Object.keys(characterObj).indexOf("_imgAlt")          !== -1 &&
+        Object.keys(characterObj).indexOf("_imgArenaSrc")     !== -1) 
+    {
+      this._hero = characterObj;
+      return characterObj;
+    }
+    else {
+      console.log(`Hero: ${characterObj} not set! Required properties not present!`);
+    }
+  },
+
+  set enemy(characterObj) {
+    if (Object.keys(characterObj).indexOf("_healthPoints")       !== -1 &&
+        Object.keys(characterObj).indexOf("_counterAttackPower") !== -1 &&
+        Object.keys(characterObj).indexOf("_imgSrc")             !== -1 &&
+        Object.keys(characterObj).indexOf("_imgAlt")             !== -1 &&
+        Object.keys(characterObj).indexOf("_imgArenaSrc")        !== -1)
+    {
+      this._enemy = characterObj;
+      return characterObj;
+    }
+    else {
+      console.log(`Enemy: ${characterObj} not set! Required properties not present!`);
+    }
+  },
+
+  get enemyName() {
+    return this._enemy._name;
+  },
+
+  get heroHP() {
+    return this._hero._healthPoints;
+  },
+
+  get enemyHP() {
+    return this._enemy._healthPoints;
+  },
+
+  get heroAttackPower() {
+    return this._hero._attackPower;
+  },
+
+  get enemyCounterAttackPower() {
+    return this._enemy._counterAttackPower;
+  },
+
+  increaseHeroAttackPower() {
+    this._hero._attackPower += this._hero._baseAttackPower;
+    return this._attackPower;
+  },
+
+  damageToHero(points) {
+    if (typeof points === "number") {
+      this._hero._healthPoints -= points;
+    }
+    return this._hero._healthPoints;
+  },
+
+  damageToEnemy(points) {
+    if (typeof points === "number") {
+      this._enemy._healthPoints -= points;
+    }
+    return this._hero._healthPoints;
+  },
+
+  isHeroDefeated() {
+    if (this._hero._healthPoints <= 0) {
       return true;
     } else {
       return false;
     }
   },
 
-  // Create enemy object, push to enemy array
-  chooseEnemy(enemyName, healthPoints, counterAttackPower) {
-    // Parameter validation
-    if (typeof enemyName === "string" &&
-        typeof healthPoints === "number" &&
-        typeof counterAttackPower === "number")
-    { 
-      // Limit total # of enemies created to this._maxEnemyCount
-      if (this._enemies.length < this._maxEnemyCount) {
-        var newEnemy = new ChosenEnemy(enemyName, healthPoints, counterAttackPower);
-        this._enemies.unshift(newEnemy);
-        return newEnemy;
-      }
-      // If max enemies have already been chosen
-      else {
-        console.log(`Enemy ${enemyName} not created! _maxEnemyCount reached!`);
-      }
-    }
-    // If arguments passed are incorrect type
-    else {
-      console.log(`Enemy ${enemyName} not created! Invalid Parameters!`);
-    }
+  resetGameProps() {
+    this._enemy = {};
+    this._hero = {};
   },
 
-  // Create chosen character, push to chosen character array
-  chooseCharacter(characterName, healthPoints, counterAttackPower) {
-    
-    // Parameter validation
-    if (typeof characterName === "string" &&
-        typeof healthPoints === "number" &&
-        typeof counterAttackPower === "number")
-    { 
-      // Limit total 'characters chosen' created to _maxCharacterCount
-      if (this._chosenCharacter.length < this._maxCharacterCount) {
-        var character = new ChosenCharacter(characterName, healthPoints, counterAttackPower);
-        this._chosenCharacter.push(character);
-        return character;
-      }
-      // If character has already been chosen
-      else {
-        console.log(`Character '${characterName}' not created! _maxCharacterCount reached!`);
-      }
-    }
-    // If arguments passed are incorrect type
-    else {
-      console.log(`Character '${characterName}' not created! Invalid Parameters!`);
+  isEnemyDefeated() {
+    if (this._enemy._healthPoints <= 0) {
+      return true;
+    } else {
+      return false;
     }
   },
-
-  resetGame() {
-    this._enemies = [];
-    this._chosenCharacter = [];
-    let object = {
-        _enemies: this._enemies,
-        _chosenCharacter: this._chosenCharacter
-      };
-    return object;
-  }
-}
+};
 
 /*
  *  View -  output representation of information
@@ -237,142 +266,3 @@ $(function() {
 
   // User clicks 'reset' button, only visible after loss or win
 });
-
-
-
-/*
-
-new thoughts...
-
-const chosenCharacter = object {
-  name: "character1",
-  image: ./path...,
-  alt: "alt text",
-  healthPoints: 100,
-  attackPower: 6,
-
-  methods...
-}
-
-const chosenEnemies = object {
-  name: "character2",
-  image: ./path/...,
-  alt: "alt text",
-  healthPoints: 150,
-  counterAttackPower 15;
-
-  methods...
-}
-
-
-
-
-ORRRRR...
-
-
-
-const chosenCharacter = object {
-  name: "character1",
-  role: "chosenCharacter" OR "enemy";
-  image: "./path...",
-  alt: "alt text",
-  healthPoints: 100,
-  attackPower: 6,
-  counterAttackPower: 15,
-
-  methods...
-}
-
-refactor...
-
-
-
-const gameCharacter = {
-  name: "character1", 
-  healthPoints: 100, 
-  attackPower: 6, 
-  imgSrc: "./path...",
-  imgAlt: "text",
-
-  inheritedMethods...
-};
-
-
-
-const gameEnemies = {[
-  {
-    name: "character2", 
-    healthPoints: 100, 
-    attackPower: 6, 
-    imgSrc: "./path...",
-    imgAlt: "text",
-
-    inheritedMethods...
-  },
-  {
-    name: "character3", 
-    healthPoints: 100, 
-    attackPower: 6, 
-    imgSrc: "./path...",
-    imgAlt: "text",
-
-    inheritedMethods...
-  },
-  {
-    name: "character4", 
-    healthPoints: 100, 
-    attackPower: 6, 
-    imgSrc: "./path...",
-    imgAlt: "text",
-
-    inheritedMethods...
-  }
-]};
-
-
-ORRRRR everybody in the same class... the easy way out:
-
-const characterChoices = {[
-  {
-    name: "character1", 
-    healthPoints: 100, 
-    attackPower: 6,
-    counterAttackPower: 15,
-    imgSrc: "./path...",
-    imgAlt: "text",
-
-    inheritedMethods...
-  },
-  {
-    name: "character2", 
-    healthPoints: 120, 
-    attackPower: 6,
-    counterAttackPower: 15, 
-    imgSrc: "./path...",
-    imgAlt: "text",
-
-    inheritedMethods...
-  },
-  {
-    name: "character3", 
-    healthPoints: 150, 
-    attackPower: 6, 
-    counterAttackPower: 15,
-    imgSrc: "./path...",
-    imgAlt: "text",
-
-    inheritedMethods...
-  },
-  {
-    name: "character4", 
-    healthPoints: 180, 
-    attackPower: 6, 
-    counterAttackPower: 25,
-    imgSrc: "./path...",
-    imgAlt: "text",
-
-    inheritedMethods...
-  }
-]};
-
-*/
