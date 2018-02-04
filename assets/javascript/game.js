@@ -37,8 +37,13 @@ chosen enemy properties
 
 class Character {
 
-  constructor(healthPoints) {
+  constructor(name, healthPoints) {
+    this._name = name;
     this._healthPoints = healthPoints;
+  }
+
+  get name() {
+    return this._name;
   }
 
   get healthPoints() {
@@ -60,8 +65,8 @@ class Character {
 
 class ChosenCharacter extends Character {
 
-  constructor(healthPoints, attackPower) {
-    super(healthPoints);
+  constructor(name, healthPoints, attackPower) {
+    super(name, healthPoints);
     this._increaseAttackPower = attackPower;
     this._attackPower = attackPower;
   }
@@ -78,8 +83,8 @@ class ChosenCharacter extends Character {
 
 class ChosenEnemy extends Character {
 
-  constructor(healthPoints, counterAttackPower) {
-    super(healthPoints)
+  constructor(name, healthPoints, counterAttackPower) {
+    super(name, healthPoints);
     this._counterAttackPower = counterAttackPower;
   }
 
@@ -98,21 +103,28 @@ class ChosenEnemy extends Character {
 // Dynamically create character/enemy objects 
 // with below function call:
 
+const gameCharacters = {
+  _maxEnemyCount: 3,
+  _maxCharacterCount: 1,
+  _enemies: [],
+  _chosenCharacter: [],
 
-const createObject = {
-  enemyCount: 0,
-  characterCount: 0,
-
-  enemy(characterNumber) {
-
-  },
-
-  // function call ex. createObject.character('character1');
-  character(characterNumber) {
-    if (this.characterCount < 1) {
-      const characterNumber = new ChosenCharacter(100, 10);
-      this.characterCount++;
-      return characterNumber;
-    }
+  // Create enemy object, push to enemy array
+  chooseEnemy(enemyName, healthPoints, counterAttackPower) {
+    // Parameter validation
+    if (typeof enemyName === "string" &&
+        typeof healthPoints === "number" &&
+        typeof counterAttackPower === "number")
+    { // Limit total enemies created to _maxEnemyCount
+      if (this._enemies.length < this._maxEnemyCount) {
+        let newEnemy = new ChosenEnemy(enemyName, healthPoints, counterAttackPower);
+        this._enemies.push(newEnemy);
+        return newEnemy;
+      }
+    } else console.log(`Enemy ${enemyName} not created! Invalid Parameters!`);
   }
+
+
+
+  // Create chosen character, push to chosen character array
 }
