@@ -1,40 +1,20 @@
-
-
 /*
+ * html element id's:
+ *     js-game-alert
+ *     js-chosen-character
+ *     js-chosen-enemy
+ *     js-character-1
+ *     js-character-2
+ *     js-character-3
+ *     js-character-4
+ *     js-enemy-1
+ *     js-enemy-2
+ *     js-enemy-3
+ *     js-enemy-4
+ *     js-attack-reset-button
+ */
 
-html element id's:
-
-js-game-alert
-
-js-chosen-character
-js-chosen-enemy
-
-js-character-1
-js-character-2
-js-character-3
-js-character-4
-
-js-enemy-1
-js-enemy-2
-js-enemy-3
-js-enemy-4
-
-js-attack-reset-button
-
-*/
-
-/* Pseudocode Classes
-Character Properties:
-  -healthPoints (starting healthPoints)
-  -function damageSustained(points) (decrease HP's remaining)
-
-chosen character properties
-  -attackPower (if they are chosen character)
-
-chosen enemy properties
-  -counterAttackPower (if they are enemy)
-*/
-
+// Parent character class
 class Character {
 
   constructor(name, healthPoints) {
@@ -63,6 +43,7 @@ class Character {
   }
 }
 
+// Child class, inherits from Character
 class ChosenCharacter extends Character {
 
   constructor(name, healthPoints, attackPower) {
@@ -81,6 +62,7 @@ class ChosenCharacter extends Character {
   }
 }
 
+// Child class, inherits from Character
 class ChosenEnemy extends Character {
 
   constructor(name, healthPoints, counterAttackPower) {
@@ -93,38 +75,63 @@ class ChosenEnemy extends Character {
   }
 }
 
-
-// const character1 = new ChosenCharacter(100, 10);
-
-// const character2 = new ChosenEnemy(120, 5);
-// const character3 = new ChosenEnemy(200, 5);
-// const character4 = new ChosenEnemy(200, 5);
-
-// Dynamically create character/enemy objects 
-// with below function call:
-
+// Object to dynamically create character/enemy objects 
 const gameCharacters = {
   _maxEnemyCount: 3,
   _maxCharacterCount: 1,
   _enemies: [],
   _chosenCharacter: [],
 
+  get currentEnemy() {
+    return this._enemies[0];
+  },
+
+  get currentCharacter() {
+    return this._chosenCharacter;
+  },
+
   // Create enemy object, push to enemy array
   chooseEnemy(enemyName, healthPoints, counterAttackPower) {
     // Parameter validation
     if (typeof enemyName === "string" &&
-        typeof healthPoints === "number" &&
-        typeof counterAttackPower === "number")
-    { // Limit total enemies created to _maxEnemyCount
+      typeof healthPoints === "number" &&
+      typeof counterAttackPower === "number")
+    { 
+      // Limit total enemies created to _maxEnemyCount
       if (this._enemies.length < this._maxEnemyCount) {
-        let newEnemy = new ChosenEnemy(enemyName, healthPoints, counterAttackPower);
-        this._enemies.push(newEnemy);
+        var newEnemy = new ChosenEnemy(enemyName, healthPoints, counterAttackPower);
+        this._enemies.unshift(newEnemy);
         return newEnemy;
+      } 
+      else {
+        console.log(`Enemy ${enemyName} not created! _maxEnemyCount reached!`);
       }
-    } else console.log(`Enemy ${enemyName} not created! Invalid Parameters!`);
-  }
-
-
+    } 
+    else {
+      console.log(`Enemy ${enemyName} not created! Invalid Parameters!`);
+    }
+  },
 
   // Create chosen character, push to chosen character array
+  chooseCharacter(characterName, healthPoints, counterAttackPower) {
+    
+    // Parameter validation
+    if (typeof characterName === "string" &&
+      typeof healthPoints === "number" &&
+      typeof counterAttackPower === "number")
+    { 
+      // Limit total 'characters chosen' created to _maxCharacterCount
+      if (this._chosenCharacter.length < this._maxCharacterCount) {
+        var character = new ChosenCharacter(characterName, healthPoints, counterAttackPower);
+        this._chosenCharacter.unshift(character);
+        return character;
+      }
+      else {
+        console.log(`Character '${characterName}' not created! _maxCharacterCount reached!`);
+      }
+    }
+    else {
+      console.log(`Character '${characterName}' not created! Invalid Parameters!`);
+    }
+  }
 }
