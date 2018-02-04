@@ -76,7 +76,16 @@ const gameCharacters = {
   },
 
   get currentCharacter() {
-    return this._chosenCharacter;
+    return this._chosenCharacter[0];
+  },
+
+  // Test if all enemies defeated
+  get enemiesRemain() {
+    if (this._maxEnemyCount - this._enemies.length === 0) {
+      return true;
+    } else {
+      return false;
+    }
   },
 
   // Create enemy object, push to enemy array
@@ -92,7 +101,7 @@ const gameCharacters = {
         this._enemies.unshift(newEnemy);
         return newEnemy;
       }
-      // If 3 enemies have already been chosen
+      // If max enemies have already been chosen
       else {
         console.log(`Enemy ${enemyName} not created! _maxEnemyCount reached!`);
       }
@@ -126,6 +135,16 @@ const gameCharacters = {
     else {
       console.log(`Character '${characterName}' not created! Invalid Parameters!`);
     }
+  },
+
+  resetGame() {
+    this._enemies = [];
+    this._chosenCharacter = [];
+    let object = {
+        _enemies: this._enemies,
+        _chosenCharacter: this._chosenCharacter
+      };
+    return object;
   }
 }
 
@@ -145,7 +164,6 @@ const gameCharacters = {
  *     js-enemy-1
  *     js-enemy-2
  *     js-enemy-3
- *     js-enemy-4
  *     js-attack-reset-button
  */
 
@@ -153,15 +171,208 @@ const gameCharacters = {
  *  Controller - accepts input and converts it to commands for the model or view
  */
 
- const gameEngine(role) {
-  // 'role' is either 'character' or 'enemy'
+ //const arena(name, role) {
 
- }
+  // 'role' is either 'character' or 'enemy'
+    // gameCharacters.chooseCharacter() or gameCharacters.chooseEnemy()
+
+  // Battling: 1) enemy sustains damage, 2) character sustains damage
+    // 1) gameCharacters.currentEnemy.damageSustained(currentCharacter.attackPower)
+    //    gameCharacters.currentCharacter.increaseAttackPower();
+    // 2) gameCharacters.currentCharacter.damageSustained(gameCharacters.currentEnemy.counterAttackPower);
+
+  // After each 'attack'...
+
+    // First, test if user is defeated
+      // if yes, Alert to loss, reset game
+
+    // Second, test if enemy is defeated
+      // Alert to enemy defeat
+      // Test if enemies remain, 
+        // if not, alert to user won game, reset game
+        // if so, player to choose next enemy
+ //};
 
 // Shorthand for $( document ).ready()
 $(function() {
 
-  // User chooses character, remaining characters pushed to enemy list
+  // User clicks chosen character
+  $('#js-character-1').on('click', () => {
+    console.log(`character1 was just clicked!`);
+    arena.func("character1", "chosenCharacter");
+  });
+
+  $('#js-character-2').on('click', () => {
+    console.log(`character2 was just clicked!`);
+    arena.func("character2", "chosenCharacter");
+  });
+
+  $('#js-character-3').on('click', () => {
+    console.log(`character3 was just clicked!`);
+    arena.func("character3", "chosenCharacter");
+  });
+
+  $('#js-character-4').on('click', () => {
+    console.log(`character4 was just clicked!`);
+    arena.func("character4", "chosenCharacter");
+  });
 
   // User chooses enemy to fight
+  $('#js-enemy-1').on('click', () => {
+    console.log(`character1 was just chosen as the enemy`);
+    arena.func("character1", "chosenEnemy");
+  });
+
+  $('#js-enemy-2').on('click', () => {
+    console.log(`character2 was just chosen as the enemy`);
+    arena.func("character2", "chosenEnemy");
+  });
+
+  $('#js-enemy-3').on('click', () => {
+    console.log(`character3 was just chosen as the enemy`);
+    arena.func("character3", "chosenEnemy");
+  });
+
+  // User clicks 'attack' button
+
+  // User clicks 'reset' button, only visible after loss or win
 });
+
+
+
+/*
+
+new thoughts...
+
+const chosenCharacter = object {
+  name: "character1",
+  image: ./path...,
+  alt: "alt text",
+  healthPoints: 100,
+  attackPower: 6,
+
+  methods...
+}
+
+const chosenEnemies = object {
+  name: "character2",
+  image: ./path/...,
+  alt: "alt text",
+  healthPoints: 150,
+  counterAttackPower 15;
+
+  methods...
+}
+
+
+
+
+ORRRRR...
+
+
+
+const chosenCharacter = object {
+  name: "character1",
+  role: "chosenCharacter" OR "enemy";
+  image: "./path...",
+  alt: "alt text",
+  healthPoints: 100,
+  attackPower: 6,
+  counterAttackPower: 15,
+
+  methods...
+}
+
+refactor...
+
+
+
+const gameCharacter = {
+  name: "character1", 
+  healthPoints: 100, 
+  attackPower: 6, 
+  imgSrc: "./path...",
+  imgAlt: "text",
+
+  inheritedMethods...
+};
+
+
+
+const gameEnemies = {[
+  {
+    name: "character2", 
+    healthPoints: 100, 
+    attackPower: 6, 
+    imgSrc: "./path...",
+    imgAlt: "text",
+
+    inheritedMethods...
+  },
+  {
+    name: "character3", 
+    healthPoints: 100, 
+    attackPower: 6, 
+    imgSrc: "./path...",
+    imgAlt: "text",
+
+    inheritedMethods...
+  },
+  {
+    name: "character4", 
+    healthPoints: 100, 
+    attackPower: 6, 
+    imgSrc: "./path...",
+    imgAlt: "text",
+
+    inheritedMethods...
+  }
+]};
+
+
+ORRRRR everybody in the same class... the easy way out:
+
+const characterChoices = {[
+  {
+    name: "character1", 
+    healthPoints: 100, 
+    attackPower: 6,
+    counterAttackPower: 15,
+    imgSrc: "./path...",
+    imgAlt: "text",
+
+    inheritedMethods...
+  },
+  {
+    name: "character2", 
+    healthPoints: 120, 
+    attackPower: 6,
+    counterAttackPower: 15, 
+    imgSrc: "./path...",
+    imgAlt: "text",
+
+    inheritedMethods...
+  },
+  {
+    name: "character3", 
+    healthPoints: 150, 
+    attackPower: 6, 
+    counterAttackPower: 15,
+    imgSrc: "./path...",
+    imgAlt: "text",
+
+    inheritedMethods...
+  },
+  {
+    name: "character4", 
+    healthPoints: 180, 
+    attackPower: 6, 
+    counterAttackPower: 25,
+    imgSrc: "./path...",
+    imgAlt: "text",
+
+    inheritedMethods...
+  }
+]};
+
+*/
