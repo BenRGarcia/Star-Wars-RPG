@@ -1,17 +1,6 @@
 /*
- * html element id's:
- *     js-game-alert
- *     js-chosen-character
- *     js-chosen-enemy
- *     js-character-1
- *     js-character-2
- *     js-character-3
- *     js-character-4
- *     js-enemy-1
- *     js-enemy-2
- *     js-enemy-3
- *     js-enemy-4
- *     js-attack-reset-button
+ *  Model - Central component, independent of the user interface.
+ *          Directly manages the data, logic and rules of the application.
  */
 
 // Parent character class
@@ -94,19 +83,21 @@ const gameCharacters = {
   chooseEnemy(enemyName, healthPoints, counterAttackPower) {
     // Parameter validation
     if (typeof enemyName === "string" &&
-      typeof healthPoints === "number" &&
-      typeof counterAttackPower === "number")
+        typeof healthPoints === "number" &&
+        typeof counterAttackPower === "number")
     { 
-      // Limit total enemies created to _maxEnemyCount
+      // Limit total # of enemies created to this._maxEnemyCount
       if (this._enemies.length < this._maxEnemyCount) {
         var newEnemy = new ChosenEnemy(enemyName, healthPoints, counterAttackPower);
         this._enemies.unshift(newEnemy);
         return newEnemy;
-      } 
+      }
+      // If 3 enemies have already been chosen
       else {
         console.log(`Enemy ${enemyName} not created! _maxEnemyCount reached!`);
       }
-    } 
+    }
+    // If arguments passed are incorrect type
     else {
       console.log(`Enemy ${enemyName} not created! Invalid Parameters!`);
     }
@@ -117,21 +108,60 @@ const gameCharacters = {
     
     // Parameter validation
     if (typeof characterName === "string" &&
-      typeof healthPoints === "number" &&
-      typeof counterAttackPower === "number")
+        typeof healthPoints === "number" &&
+        typeof counterAttackPower === "number")
     { 
       // Limit total 'characters chosen' created to _maxCharacterCount
       if (this._chosenCharacter.length < this._maxCharacterCount) {
         var character = new ChosenCharacter(characterName, healthPoints, counterAttackPower);
-        this._chosenCharacter.unshift(character);
+        this._chosenCharacter.push(character);
         return character;
       }
+      // If character has already been chosen
       else {
         console.log(`Character '${characterName}' not created! _maxCharacterCount reached!`);
       }
     }
+    // If arguments passed are incorrect type
     else {
       console.log(`Character '${characterName}' not created! Invalid Parameters!`);
     }
   }
 }
+
+/*
+ *  View -  output representation of information
+ */
+
+/*
+ * html element id's:
+ *     js-game-alert
+ *     js-chosen-character
+ *     js-chosen-enemy
+ *     js-character-1
+ *     js-character-2
+ *     js-character-3
+ *     js-character-4
+ *     js-enemy-1
+ *     js-enemy-2
+ *     js-enemy-3
+ *     js-enemy-4
+ *     js-attack-reset-button
+ */
+
+/*
+ *  Controller - accepts input and converts it to commands for the model or view
+ */
+
+ const gameEngine(role) {
+  // 'role' is either 'character' or 'enemy'
+
+ }
+
+// Shorthand for $( document ).ready()
+$(function() {
+
+  // User chooses character, remaining characters pushed to enemy list
+
+  // User chooses enemy to fight
+});
