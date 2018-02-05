@@ -29,15 +29,18 @@ const gameProps = {
   // setter methods
     // set available characters
 
+  // Will add characters to this._availableCharacters array (controller to use 'for' loop)
   set addAvailableCharacters(characterObject) {
     // Ensure character objects have required properties
-    if (Object.keys(characterObject)indexOf("name")               !== -1 &&
-        Object.keys(characterObject)indexOf("healthPoints")       !== -1 &&
-        Object.keys(characterObject)indexOf("baseAttackPower")    !== -1 &&
-        Object.keys(characterObject)indexOf("attackPower")        !== -1 &&
-        Object.keys(characterObject)indexOf("counterAttackPower") !== -1 &&
-        Object.keys(characterObject)indexOf("src")                !== -1 &&
-        Object.keys(characterObject)indexOf("alt")                !== -1 &&) 
+    if (
+        Object.keys(characterObject).indexOf("name")               !== -1 &&
+        Object.keys(characterObject).indexOf("healthPoints")       !== -1 &&
+        Object.keys(characterObject).indexOf("baseAttackPower")    !== -1 &&
+        Object.keys(characterObject).indexOf("attackPower")        !== -1 &&
+        Object.keys(characterObject).indexOf("counterAttackPower") !== -1 &&
+        Object.keys(characterObject).indexOf("src")                !== -1 &&
+        Object.keys(characterObject).indexOf("alt")                !== -1
+      ) 
     {
       this._availableCharacters.push(characterObject);
       return characterObject;
@@ -53,6 +56,31 @@ const gameProps = {
     // return object
 
   // gameplay methods
+
+  // When user chooses hero
+  chosenHero(name) {
+    // Loop over objects in this._availableCharacters array
+    for (let i = 0; i < this._availableCharacters.length; i++) {
+      // If character name matches chosen name
+      if (name === this._availableCharacters[i].name) {
+        let hero = this._availableCharacters[i];
+        // Remove hero name from _availableCharacters array
+        this._availableCharacters.splice(index, 1);
+        // Make hero this._chosenHero
+        this._chosenHero = hero;
+        // Call function that moves remaining characters to enemy array
+        addRemainingToAvailableEnemies();
+        // return chosen hero object
+        return hero;
+      }
+    }
+  },
+
+  addRemainingToAvailableEnemies() {
+    for () {
+
+    }
+  }
   
 
 };
