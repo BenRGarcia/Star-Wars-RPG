@@ -17,7 +17,47 @@
  *          Directly manages the data, logic and rules of the application.
  */
 
-// Object to manage characters available for game
+
+// Object to manage state of game
+const gameProps = {
+  _availableCharacters: [],
+  _chosenHero: {},
+  _availableEnemies: [],
+  _chosenEnemy: {},
+  _defeatedEnemies: [],
+
+  // setter methods
+    // set available characters
+
+  set addAvailableCharacters(characterObject) {
+    // Ensure character objects have required properties
+    if (Object.keys(characterObject)indexOf("name")               !== -1 &&
+        Object.keys(characterObject)indexOf("healthPoints")       !== -1 &&
+        Object.keys(characterObject)indexOf("baseAttackPower")    !== -1 &&
+        Object.keys(characterObject)indexOf("attackPower")        !== -1 &&
+        Object.keys(characterObject)indexOf("counterAttackPower") !== -1 &&
+        Object.keys(characterObject)indexOf("src")                !== -1 &&
+        Object.keys(characterObject)indexOf("alt")                !== -1 &&) 
+    {
+      this._availableCharacters.push(characterObject);
+      return characterObject;
+    }
+    else
+    {
+      console.log(`Character ${characterObject} not added! Required properties not present!`);
+    }
+  },
+
+  // getter methods for view and controller
+    // get hero
+    // return object
+
+  // gameplay methods
+  
+
+};
+
+// Object to manage characters available for game play
 const availableCharacters = {
   _characterArray: [
     {
@@ -26,8 +66,8 @@ const availableCharacters = {
       baseAttackPower: 6,
       attackPower: 6,
       counterAttackPower: 10,
-      imgSrc: "./assets/images/boba.jpg",
-      imgAlt: "Picture of Boba Fett"
+      src: "./assets/images/boba.jpg",
+      alt: "Picture of Boba Fett"
     },
     {
       name: "Darth Maul",
@@ -35,8 +75,8 @@ const availableCharacters = {
       baseAttackPower: 6,
       attackPower: 6,
       counterAttackPower: 15,
-      imgSrc: "./assets/images/darth.jpg",
-      imgAlt: "Picture of Darth Maul"
+      src: "./assets/images/darth.jpg",
+      alt: "Picture of Darth Maul"
     },
     {
       name: "Hans Solo",
@@ -44,8 +84,8 @@ const availableCharacters = {
       baseAttackPower: 6,
       attackPower: 6,
       counterAttackPower: 20,
-      imgSrc: "./assets/images/hans.jpg",
-      imgAlt: "Picture of Hans Solo"
+      src: "./assets/images/hans.jpg",
+      alt: "Picture of Hans Solo"
     },
     {
       name: "Yoda",
@@ -53,8 +93,12 @@ const availableCharacters = {
       baseAttackPower: 6,
       attackPower: 6,
       counterAttackPower: 25,
-      imgSrc: "./assets/images/yoda.jpg",
-      imgAlt: "Picture of Yoda"
+      src: "./assets/images/yoda.jpg",
+      alt: "Picture of Yoda"
     }
-  ]
+  ],
+
+  getCharacter(index) {
+    return this._characterArray[index];
+  }
 };
