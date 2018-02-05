@@ -53,8 +53,7 @@ const gameProps = {
         Object.keys(characterObject).indexOf("attackPower")        !== -1 &&
         Object.keys(characterObject).indexOf("counterAttackPower") !== -1 &&
         Object.keys(characterObject).indexOf("src")                !== -1 &&
-        Object.keys(characterObject).indexOf("alt")                !== -1
-      ) 
+        Object.keys(characterObject).indexOf("alt")                !== -1) 
     {
       this._availableCharacters.push(characterObject);
       return characterObject;
@@ -122,14 +121,23 @@ const gameProps = {
   enemyDamageSustained(points) {},
 
   // Hero attacks enemy
-  heroAttack() {},
+  heroAttack() {
+    this._chosenEnemy.healthPoints -= this._chosenHero.attackPower;
+    this.increaseHeroAttackPower();
+  },
+
+  increaseHeroAttackPower() {
+    this._chosenHero.attackPower += this._chosenHero.baseAttackPower;
+  },
 
   // Enemy counter attacks hero
-  enemyAttack() {},
+  enemyAttack() {
+    this._chosenHero.healthPoints -= this._chosenEnemy.counterAttackPower;
+  },
 
   // Test if Hero is defeated
   isHeroDefeated() {
-    if (this._chosenHero) {
+    if (this._chosenHero.healthPoints <= 0) {
       return true;
     } else {
       return false;
@@ -138,13 +146,14 @@ const gameProps = {
 
   // Test if Enemy is defeated
   isEnemyDefeated() {
-    if (this._chosenEnemy) {
+    if (this._chosenEnemy.healthPoints <= 0) {
       return true;
     } else {
       return false;
     }
   },
 
+  // Set at gameProps back to empty
   resetGame() {
     this._availableCharacters = [];
     this._chosenHero = {};
