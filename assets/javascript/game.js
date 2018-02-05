@@ -51,12 +51,6 @@ const gameProps = {
     }
   },
 
-  // getter methods for view and controller
-    // get hero
-    // return object
-
-  // gameplay methods
-
   // When user chooses hero
   chosenHero(name) {
     // Loop over objects in this._availableCharacters array
@@ -76,10 +70,15 @@ const gameProps = {
     }
   },
 
+  // Automatically called by chosenHero() to add non-hero characters to this._availableEnemies
   addRemainingToAvailableEnemies() {
-    for () {
-
+    // Loop over available characters, add to available enemy array
+    for (let i = 0; i < availableCharacters.length; i++) {
+      this._availableEnemies.push(this._availableCharacters[i]);
     }
+    // Make this._availableCharacters an empty array
+    this._availableCharacters = [];
+    return this._availableCharacters;
   }
   
 
