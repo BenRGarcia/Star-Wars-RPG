@@ -24,12 +24,26 @@ const gameProps = {
   _chosenHero: {},
   _availableEnemies: [],
   _chosenEnemy: {},
-  _defeatedEnemies: [],
 
-  // setter methods
-    // set available characters
+  get availableCharacters() {
+    return this._availableCharacters;
+  },
 
-  // Will add characters to this._availableCharacters array (controller to use 'for' loop)
+  get hero() {
+    return this._chosenHero;
+  },
+
+  get availableEnemies() {
+    return this._availableEnemies;
+  },
+
+  get enemy() {
+    return this._chosenEnemy;
+  },
+
+
+
+  // Add characters to this._availableCharacters array (controller to use 'for' loop)
   set addAvailableCharacters(characterObject) {
     // Ensure character objects have required properties
     if (
@@ -79,9 +93,64 @@ const gameProps = {
     // Make this._availableCharacters an empty array
     this._availableCharacters = [];
     return this._availableCharacters;
-  }
-  
+  },
 
+  // Set chosen enemy
+  chosenEnemy(name) {
+    // Remove previous enemy, if any
+    this._chosenEnemy = {};
+    // Loop over _availableEnemies array, make chosen enemy if name match
+    for (let i = 0; i < this._availableEnemies.length; i++) {
+      if (name === this._availableEnemies[i].name) {
+        let enemy = this._availableEnemies[i];
+        this._chosenEnemy = enemy;
+        removeFromAvailableEnemies(i);
+        return enemy;
+      }
+    }
+  },
+
+  // Auromatically called by chosenEnemy() to remove chosen enemy from available enemy array
+  removeFromAvailableEnemies(index) {
+    this._availableEnemies.splice(index, 0);
+  },
+
+  // Hero sustains damage from enemy
+  heroDamageSustained(points) {},
+
+  // Enemy sustains damage from hero
+  enemyDamageSustained(points) {},
+
+  // Hero attacks enemy
+  heroAttack() {},
+
+  // Enemy counter attacks hero
+  enemyAttack() {},
+
+  // Test if Hero is defeated
+  isHeroDefeated() {
+    if (this._chosenHero) {
+      return true;
+    } else {
+      return false;
+    }
+  },
+
+  // Test if Enemy is defeated
+  isEnemyDefeated() {
+    if (this._chosenEnemy) {
+      return true;
+    } else {
+      return false;
+    }
+  },
+
+  resetGame() {
+    this._availableCharacters = [];
+    this._chosenHero = {};
+    this._availableEnemies = [];
+    this._chosenEnemy = {};
+  }
 };
 
 // Object to manage characters available for game play
