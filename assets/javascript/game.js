@@ -9,7 +9,61 @@
  *  View -  output representation of information
  */
 
-// Pseudocode
+ /*
+HTML id list:
+js-hero-section
+js-enemy-section
+js-chosen-hero
+js-hero-hp
+js-chosen-enemy
+js-enemy-hp
+js-game-alert1
+js-game-alert2
+js-
+js-
+ */
+
+const DOM = {
+  dummyFunction() {
+    // Pseudocode naive solutions, just to get code ideas out:
+
+    // Update 'Choose Hero' section with characters
+    for (let i = 0; i < gameProps.availableCharacters.length; i++) {
+      let newImg = $("<img>");
+      newImg.attr("src", gameProps.availableCharacters[i].src);
+      newImg.attr("alt", gameProps.availableCharacters[i].alt);
+      newImg.attr("id", "js-character-" + (i + 1));
+      $('#js-hero-section').append(newImg);
+    }
+
+    // Update 'Choose Enemy' section with characters
+    for (let i = 0; i < gameProps.availableEnemies.length; i++) {
+      let newImg = $("<img>");
+      newImg.attr("src", gameProps.availableEnemies[i].src);
+      newImg.attr("alt", gameProps.availableEnemies[i].alt);
+      newImg.attr("id", "js-enemy-" + (i + 1));
+    }
+
+    // Remove all images from 'Choose Hero' section
+    $('#js-hero-section').empty();
+
+    // Add chosen hero to fight area
+    $('#js-chosen-hero').attr("src", gameProps.hero.src);
+    $('#js-chosen-hero').attr("alt", gameProps.hero.alt);
+
+    // Add chosen enemy to fight area
+    $('#js-chosen-enemy').attr("src", gameProps.enemy.src);
+    $('#js-chosen-enemy').attr("alt", gameProps.enemy.alt);
+
+    // Update game alert area
+    $('#js-game-alert1').text(gameProps.gameAlert1);
+    $('#js-game-alert2').text(gameProps.gameAlert2);
+
+    // Update HP counters
+    $('js-hero-hp').text(gameProps.heroHP);
+    $('js-enemy-hp').text(gameProps.enemyHP);
+  }
+};
 
 
 /*
@@ -17,13 +71,22 @@
  *          Directly manages the data, logic and rules of the application.
  */
 
-
 // Object to manage state of game
 const gameProps = {
   _availableCharacters: [],
   _chosenHero: {},
   _availableEnemies: [],
   _chosenEnemy: {},
+  _gameAlert1: "",
+  _gameAlert2: "",
+
+  get gameAlert1() {
+    return this._gameAlert1;
+  },
+
+  get gameAlert2() {
+    return this._gameAlert2;
+  },
 
   get availableCharacters() {
     return this._availableCharacters;
@@ -41,7 +104,13 @@ const gameProps = {
     return this._chosenEnemy;
   },
 
+  get heroHP() {
+    return this._chosenHero.healthPoints;
+  },
 
+  get enemyHP() {
+    return this._chosenEnemy.healthPoints;
+  },
 
   // Add characters to this._availableCharacters array (controller to use 'for' loop)
   set addAvailableCharacters(characterObject) {
@@ -122,7 +191,9 @@ const gameProps = {
 
   // Hero attacks enemy
   heroAttack() {
-    this._chosenEnemy.healthPoints -= this._chosenHero.attackPower;
+    let points = this._chosenHero.attackPower;
+    this._chosenEnemy.healthPoints -= points;
+    this._gameAlert2 = `${this._chosenEnemy.name} sustained ${points} damage points`;
     this.increaseHeroAttackPower();
   },
 
@@ -132,12 +203,16 @@ const gameProps = {
 
   // Enemy counter attacks hero
   enemyAttack() {
-    this._chosenHero.healthPoints -= this._chosenEnemy.counterAttackPower;
+    let points = this._chosenEnemy.counterAttackPower;
+    this._chosenHero.healthPoints -= points;
+    this._gameAlert1 = `You sustained ${points} damage points`;
   },
 
   // Test if Hero is defeated
   isHeroDefeated() {
     if (this._chosenHero.healthPoints <= 0) {
+      this._gameAlert1 = ``;
+      this._gameAlert2 = "";
       return true;
     } else {
       return false;
@@ -147,6 +222,8 @@ const gameProps = {
   // Test if Enemy is defeated
   isEnemyDefeated() {
     if (this._chosenEnemy.healthPoints <= 0) {
+      this._gameAlert1 = ``;
+      this._gameAlert2 = "";
       return true;
     } else {
       return false;
@@ -159,6 +236,8 @@ const gameProps = {
     this._chosenHero = {};
     this._availableEnemies = [];
     this._chosenEnemy = {};
+    this._gameAlert1 = "";
+    this._gameAlert2 = "";
   }
 };
 
