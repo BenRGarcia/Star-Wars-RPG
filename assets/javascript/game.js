@@ -22,18 +22,99 @@
 // IMPORTANT! CALL THIS FUNCTION AT THE BOTTOM OF THIS FILE: 
 // gameEngine.initializeRound();
 
-// Pseudocode
-
+// 'Controller' object
 const gameEngine = {
+
+  /*
+   * gameEngine.controller(...) will be passed either:
+   *   "boba-fett"
+   *   "darth-maul"
+   *   "hans-solo"
+   *   "yoda"
+   *   "attack-reset"
+   */
+
+  // controller method
+  controller(targetClicked) {
+
+
+
+    // If 'click' was the attack button
+    if (targetClicked === "attack-reset") {
+      // do some chain of action
+
+      // Ignores if hero and enemy not chosen
+      if (gameProps.chosenHero !== {} &&
+          gameProps.chosenEnemy !== {}) 
+      {
+        // do stuff
+      }
+
+      if (gameProps.isGameOver) {
+        // change text of attack button to 'RESET!'
+      }
+    }
+
+
+
+    // If 'click' was a character button
+    if (targetClicked === "boba-fett" ||
+        targetClicked === "darth-maul" ||
+        targetClicked === "hans-solo" ||
+        targetClicked === "yoda")
+    {
+      // do some chain of action
+
+      // If hero not chosen yet
+      if (gameProps.chosenHero === {}) {
+        // set as hero
+        // render changes to DOM
+      }
+
+      // If hero chosen but enemy not chosen
+      if (gameProps.chosenHero !== {} &&
+          gameProps.chosenEnemy === {})
+      {
+        // set as enemy
+        // render changes to DOM
+      }
+
+    }
+
+
+
+
+    
+
+    // If hero defeated
+    if (gameProps.isHeroDefeated) {
+      // do stuff
+    }
+
+    // If enemy defeated
+    if (gameProps.isEnemyDefeated) {
+      // do stuff
+    }
+
+    // If hero defeated all enemies
+    if (gameProps.allEnemiesDefeated) {
+      // do stuff
+    }
+
+  },
 
   // Set up new round of gameplay
   initializeRound() {
+    gameProps.toggleGameOver;
     let characters = availableCharacters._characterArray;
     let characterCount = availableCharacters._characterArray.length;
     // Loop over all available characters to load into game
     for (let i = 0; i < characterCount; i++) {
-      gameProps.addAvailableCharacters(characters[i]);
+      gameProps.addAvailableCharacters = characters[i];
     }
+    // Render available characters to js-hero-section
+    DOM.render("chooseHero");
+    DOM.render("toggleButtonText");
   }
 };
 
@@ -57,6 +138,7 @@ const DOM = {
           newImg.attr("class", "img-fluid character mb-2");
           newImg.attr("id", gameProps.availableCharacters[i].htmlId);
           $('#js-hero-section').append(newImg);
+
         }
         break;
 
@@ -74,6 +156,7 @@ const DOM = {
           let newImg = $("<img>");
           newImg.attr("src", gameProps.availableEnemies[i].src);
           newImg.attr("alt", gameProps.availableEnemies[i].alt);
+          newImg.attr("class", "img-fluid character mb-2");
           newImg.attr("id", gameProps.availableEnemies[i].htmlId);
           $('#js-enemy-section').append(newImg);
         }
@@ -132,7 +215,6 @@ const DOM = {
   }
 };
 
-
 /*
  *  Model - Central component, independent of the user interface.
  *          Directly manages the data, logic and rules of the application.
@@ -148,8 +230,8 @@ const gameProps = {
   _gameAlert2: "",
   _isGameOver: false,
 
-  get gameOver() {
-    return this._gameOver;
+  get isGameOver() {
+    return this._isGameOver;
   },
 
   get gameAlert1() {
@@ -250,22 +332,16 @@ const gameProps = {
     }
   },
 
-  // Auromatically called by chosenEnemy() to remove chosen enemy from available enemy array
+  // Automatically called by chosenEnemy() to remove chosen enemy from available enemy array
   removeFromAvailableEnemies(index) {
     this._availableEnemies.splice(index, 0);
   },
-
-  // Hero sustains damage from enemy
-  heroDamageSustained(points) {},
-
-  // Enemy sustains damage from hero
-  enemyDamageSustained(points) {},
 
   // Hero attacks enemy
   heroAttack() {
     let points = this._chosenHero.attackPower;
     this._chosenEnemy.healthPoints -= points;
-    this._gameAlert2 = `${this._chosenEnemy.name} sustained ${points} damage points`;
+    this._gameAlert1 = `${this._chosenEnemy.name} sustained ${points} damage points`;
     this.increaseHeroAttackPower();
   },
 
@@ -277,13 +353,13 @@ const gameProps = {
   enemyAttack() {
     let points = this._chosenEnemy.counterAttackPower;
     this._chosenHero.healthPoints -= points;
-    this._gameAlert1 = `You sustained ${points} damage points`;
+    this._gameAlert2 = `You sustained ${points} damage points`;
   },
 
   // Test if Hero is defeated
   isHeroDefeated() {
     if (this._chosenHero.healthPoints <= 0) {
-      this._gameAlert1 = ``;
+      this._gameAlert1 = `You were defeated! Click 'RESET' to try again!`;
       this._gameAlert2 = "";
       return true;
     } else {
@@ -294,11 +370,35 @@ const gameProps = {
   // Test if Enemy is defeated
   isEnemyDefeated() {
     if (this._chosenEnemy.healthPoints <= 0) {
-      this._gameAlert1 = ``;
+      this._gameAlert1 = `You defeated ${this._enemy.name}`;
       this._gameAlert2 = "";
       return true;
     } else {
       return false;
+    }
+  },
+
+  removeDefeatedEnemy() {
+    this._chosenEnemy = {};
+  },
+
+  allEnemiesDefeated() {
+    if (this.availableEnemies.length === 0 &&
+        this.enemy === {})
+    {
+      return true;
+    } 
+    else 
+    {
+      return false;
+    }
+  },
+
+  toggleGameOver() {
+    if (this._isGameOver === false) {
+      this._isGameOver = true;
+    } else {
+      this._isGameOver = false;
     }
   },
 
@@ -366,3 +466,31 @@ const availableCharacters = {
     return this._characterArray[index];
   }
 };
+
+// Initialize game, listen for user clicks
+$(function() { // This line is shorthand for $( document ).ready(function() {...});
+
+  // Initialize game
+  gameEngine.initializeRound();
+
+  // Listen for clicks
+  $("#js-boba-fett").on('click', () => {
+    gameEngine.controller("boba-fett");
+  });
+
+  $("#js-darth-maul").on('click', () => {
+    gameEngine.controller("darth-maul");
+  });
+
+  $("#js-hans-solo").on('click', () => {
+    gameEngine.controller("hans-solo");
+  });
+
+  $("#js-yoda").on('click', () => {
+    gameEngine.controller("yoda");
+  });
+
+  $("#js-attack-reset-button").on('click', () => {
+    gameEngine.controller("attack-reset");
+  });
+});
