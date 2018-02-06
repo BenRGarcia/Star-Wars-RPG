@@ -4,13 +4,19 @@
 
 /*
  * HTML id's to listen for:
- *   * js-
- *   * js-
- *   * js-
- *   * js-
- *   * js-
- *   * js-
- *   * js-
+ *   * js-boba-fett
+ *   * js-darth-maul
+ *   * js-hans-solo
+ *   * js-yoda
+ *   * js-attack-reset-button
+ * 
+ * HTML id's manipulate:
+ *   * js-hero-section
+ *   * js-enemy-section
+ *   * js-chosen-hero
+ *   * js-chosen-enemy
+ *   * js-hero-hp
+ *   * js-enemy-hp
  */
 
 // IMPORTANT! CALL THIS FUNCTION AT THE BOTTOM OF THIS FILE: 
@@ -87,10 +93,25 @@ const DOM = {
         $('#js-game-alert2').text(gameProps.gameAlert2);
         break;
 
+      // When enemy is defeated
+      case "enemyDefeated":
+        $('#js-chosen-enemy').attr("src", "./assets/images/question.svg");
+        $('#js-chosen-enemy').attr("alt", "Picture of ...");
+        break;
+
       // Update HP counters
       case "updateHP":
         $('js-hero-hp').text(gameProps.heroHP);
         $('js-enemy-hp').text(gameProps.enemyHP);
+        break;
+
+      // Toggle attack/reset button text
+      case "toggleButtonText":
+        if (gameProps.isGameOver) {
+          $("#js-attack-reset-button").text("ATTACK!");
+        } else {
+          $("#js-attack-reset-button").text("RESET!");
+        }
         break;
 
       // Reset game
@@ -98,10 +119,10 @@ const DOM = {
         this.render("chooseHero");
         $('#js-chosen-hero').attr("src", "./assets/images/question.svg");
         $('#js-chosen-hero').attr("alt", "Picture of ...");
-
         $('#js-chosen-enemy').attr("src", "./assets/images/question.svg");
         $('#js-chosen-enemy').attr("alt", "Picture of ...");
-
+        $("#js-hero-hp").text("");
+        $("#js-hero-hp").text("");
         break;
 
       default:
@@ -125,6 +146,11 @@ const gameProps = {
   _chosenEnemy: {},
   _gameAlert1: "",
   _gameAlert2: "",
+  _isGameOver: false,
+
+  get gameOver() {
+    return this._gameOver;
+  },
 
   get gameAlert1() {
     return this._gameAlert1;
@@ -294,6 +320,7 @@ const availableCharacters = {
       name: "Boba Fett",
       htmlId: "js-boba-fett",
       healthPoints: 100,
+      isDefeated: false,
       baseAttackPower: 6,
       attackPower: 6,
       counterAttackPower: 10,
@@ -304,6 +331,7 @@ const availableCharacters = {
       name: "Darth Maul",
       htmlId: "js-darth-maul",
       healthPoints: 120,
+      isDefeated: false,
       baseAttackPower: 6,
       attackPower: 6,
       counterAttackPower: 15,
@@ -314,6 +342,7 @@ const availableCharacters = {
       name: "Hans Solo",
       htmlId: "js-hans-solo",
       healthPoints: 150,
+      isDefeated: false,
       baseAttackPower: 6,
       attackPower: 6,
       counterAttackPower: 20,
@@ -324,6 +353,7 @@ const availableCharacters = {
       name: "Yoda",
       htmlId: "js-yoda",
       healthPoints: 180,
+      isDefeated: false,
       baseAttackPower: 6,
       attackPower: 6,
       counterAttackPower: 25,
