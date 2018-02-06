@@ -9,80 +9,75 @@
  *  View -  output representation of information
  */
 
- /*
-HTML id list:
-js-hero-section
-js-enemy-section
-js-chosen-hero
-js-hero-hp
-js-chosen-enemy
-js-enemy-hp
-js-game-alert1
-js-game-alert2
-js-
-js-
- */
-
 const DOM = {
 
   render(component) {
 
-      switch (component) {
+    switch (component) {
 
-        // Add characters to 'Choose Hero' section
-        case "chooseHero":
-          // Loop over availableCharacters array 
-          for (let i = 0; i < gameProps.availableCharacters.length; i++) {
-            let newImg = $("<img>");
-            newImg.attr("src", gameProps.availableCharacters[i].src);
-            newImg.attr("alt", gameProps.availableCharacters[i].alt);
-            newImg.attr("class", "img-fluid character mb-2");
-            newImg.attr("id", "js-hero-" + (i + 1));
-            $('#js-hero-section').append(newImg);
-          }
-          break;
+      // Add characters to 'Choose Hero' section
+      case "chooseHero":
+        // Loop over availableCharacters array 
+        for (let i = 0; i < gameProps.availableCharacters.length; i++) {
+          let newImg = $("<img>");
+          newImg.attr("src", gameProps.availableCharacters[i].src);
+          newImg.attr("alt", gameProps.availableCharacters[i].alt);
+          newImg.attr("class", "img-fluid character mb-2");
+          newImg.attr("id", "js-hero-" + (i + 1));
+          $('#js-hero-section').append(newImg);
+        }
+        break;
 
-        // Remove characters from 'Choose Hero' section, chosen hero to fight area
-        case "heroChosen":
-          $('#js-chosen-hero').attr("src", gameProps.hero.src);
-          $('#js-chosen-hero').attr("alt", gameProps.hero.alt);
-          $('#js-hero-section').empty();
-          break;
+      // Remove characters from 'Choose Hero' section, chosen hero to fight area
+      case "heroChosen":
+        $('#js-chosen-hero').attr("src", gameProps.hero.src);
+        $('#js-chosen-hero').attr("alt", gameProps.hero.alt);
+        $('#js-hero-section').empty();
+        break;
 
-        // Update 'Choose Enemy' section with characters
-        case "chooseEnemy":
-          for (let i = 0; i < gameProps.availableEnemies.length; i++) {
-            let newImg = $("<img>");
-            newImg.attr("src", gameProps.availableEnemies[i].src);
-            newImg.attr("alt", gameProps.availableEnemies[i].alt);
-            newImg.attr("id", "js-enemy-" + (i + 1));
-          }
-          break;
+      // Update 'Choose Enemy' section with characters
+      case "chooseEnemy":
+        for (let i = 0; i < gameProps.availableEnemies.length; i++) {
+          let newImg = $("<img>");
+          newImg.attr("src", gameProps.availableEnemies[i].src);
+          newImg.attr("alt", gameProps.availableEnemies[i].alt);
+          newImg.attr("id", "js-enemy-" + (i + 1));
+        }
+        break;
 
-        // Add chosen enemy to fight area, update remaining enemy section
-        case "enemyChosen":
-          $('#js-chosen-enemy').attr("src", gameProps.enemy.src);
-          $('#js-chosen-enemy').attr("alt", gameProps.enemy.alt);
-          this.render('chooseEnemy');
-          break;
+      // Add chosen enemy to fight area, update remaining enemy section
+      case "enemyChosen":
+        $('#js-chosen-enemy').attr("src", gameProps.enemy.src);
+        $('#js-chosen-enemy').attr("alt", gameProps.enemy.alt);
+        this.render('chooseEnemy');
+        break;
 
-        // Update game alert area
-        case "updateAlerts":
-          $('#js-game-alert1').text(gameProps.gameAlert1);
-          $('#js-game-alert2').text(gameProps.gameAlert2);
-          break;
+      // Update game alert area
+      case "updateAlerts":
+        $('#js-game-alert1').text(gameProps.gameAlert1);
+        $('#js-game-alert2').text(gameProps.gameAlert2);
+        break;
 
-        // Update HP counters
-        case "updateHP":
-          $('js-hero-hp').text(gameProps.heroHP);
-          $('js-enemy-hp').text(gameProps.enemyHP);
-          break;
+      // Update HP counters
+      case "updateHP":
+        $('js-hero-hp').text(gameProps.heroHP);
+        $('js-enemy-hp').text(gameProps.enemyHP);
+        break;
 
-        default:
-          console.log(`Component ${component} did not render! No matching case!`);
-          break;
-      }
+      // Reset game
+      case "newRound":
+        this.render("chooseHero");
+        $('#js-chosen-hero').attr("src", "./assets/images/question.svg");
+        $('#js-chosen-hero').attr("alt", "Picture of ...");
+        $('#js-chosen-enemy').attr("src", "./assets/images/question.svg");
+        $('#js-chosen-enemy').attr("alt", "Picture of ...");
+        break;
+
+      default:
+        console.log(`Component ${component} did not render! No matching case!`);
+        break;
     }
+  }
 };
 
 
