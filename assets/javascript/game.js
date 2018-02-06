@@ -45,28 +45,56 @@ const gameEngine = {
 
     // If 'click' was the attack button
     if (targetClicked === "attack-reset") {
-      // do some chain of action
+
+      // 'RESET!' button was clicked
+      if ($("#js-attack-reset-button").text() === "RESET!") {
+        this.initializeRound();
+      }
 
       // 'ATTACK!' button click, ignores if hero and enemy not both chosen
       if (Object.keys(gameProps.hero).length > 0 &&
           Object.keys(gameProps.enemy).length > 0)
       {
-        // do stuff
         console.log(`Controller received 'attack' command`);
-      }
+        // Characters inflict damage
+        gameProps.heroAttack();
+        gameProps.enemyAttack();
+        DOM.render("updateHP");
+        DOM.render("updateAlerts");
 
-      // 'Reset!' button was clicked
-      if ($("#js-attack-reset-button").text() === "RESET!") {
-        this.initializeRound();
-      }
+        // Test for hero defeated
+        if (gameProps.isHeroDefeated) {
+          // do stuff
+        }
+
+        // Test for enemy defeated
+        if (gameProps.isEnemyDefeated) {
+          // do stuff
+        }
+
+        // Test for both defeated
+
+        // Test for all enemies defeated
+        if (gameProps.allEnemiesDefeated) {
+          // do stuff
+        }
+
+      } 
     }
 
     /*
-     * Character Selection Logic
+     * Character Selection Logic (If 'click' was a character button)
      */
 
-    // If 'click' was a character button
-    let nameArray = ["Boba Fett", "Darth Maul", "Hans Solo", "Yoda"]
+    // Create nameArray, dynamic list of remaining 'chooseable' characters to listen for
+    let nameArray = []
+
+    for (let i = 0; i < gameProps.availableCharacters.length; i++) {
+      nameArray.push(gameProps.availableCharacters[i].name);
+    }
+    for (let i = 0; i < gameProps.availableEnemies.length; i++) {
+      nameArray.push(gameProps.availableEnemies[i].name);
+    }
 
     // If hero not yet chosen
     if (nameArray.indexOf(targetClicked) !== -1 &&
@@ -96,27 +124,6 @@ const gameEngine = {
       // render changes to DOM
       DOM.render("enemyChosen");
     }
-
-
-
-
-
-
-    // If hero defeated
-    if (gameProps.isHeroDefeated) {
-      // do stuff
-    }
-
-    // If enemy defeated
-    if (gameProps.isEnemyDefeated) {
-      // do stuff
-    }
-
-    // If hero defeated all enemies
-    if (gameProps.allEnemiesDefeated) {
-      // do stuff
-    }
-
   },
 
   // Set up new round of gameplay
@@ -161,8 +168,9 @@ const gameEngine = {
 
       // Remove characters from 'Choose Hero' section, chosen hero to fight area
       case "heroChosen":
-      $('#js-chosen-hero').attr("src", gameProps.hero.src);
-      $('#js-chosen-hero').attr("alt", gameProps.hero.alt);
+        $('#js-chosen-hero').attr("src", gameProps.hero.src);
+        $('#js-chosen-hero').attr("alt", gameProps.hero.alt);
+        $('#js-hero-hp').text(gameProps.heroHP);
         // $('#js-chosen-hero').attr("id", gameProps.hero.htmlId);
         $('#js-hero-section').empty();
         break;
@@ -181,9 +189,10 @@ const gameEngine = {
 
       // Add chosen enemy to fight area, update remaining enemy section
       case "enemyChosen":
-      $('#js-enemy-section').empty();
-      $('#js-chosen-enemy').attr("src", gameProps.enemy.src);
-      $('#js-chosen-enemy').attr("alt", gameProps.enemy.alt);
+        $('#js-enemy-section').empty();
+        $('#js-chosen-enemy').attr("src", gameProps.enemy.src);
+        $('#js-chosen-enemy').attr("alt", gameProps.enemy.alt);
+        $('#js-enemy-hp').text(gameProps.enemyHP);
         // $('#js-chosen-enemy').attr("id", gameProps.enemy.htmlId);
         this.render('chooseEnemy');
         break;
@@ -202,8 +211,8 @@ const gameEngine = {
 
       // Update HP counters
       case "updateHP":
-      $('js-hero-hp').text(gameProps.heroHP);
-      $('js-enemy-hp').text(gameProps.enemyHP);
+      $('#js-hero-hp').text(gameProps.heroHP);
+      $('#js-enemy-hp').text(gameProps.enemyHP);
       break;
 
       // Toggle attack/reset button text
@@ -362,6 +371,7 @@ const gameProps = {
 
   // Hero attacks enemy
   heroAttack() {
+    console.log(`heroAttack() was called`);
     let points = this._chosenHero.attackPower;
     this._chosenEnemy.healthPoints -= points;
     this._gameAlert1 = `${this._chosenEnemy.name} sustained ${points} damage points`;
@@ -374,6 +384,7 @@ const gameProps = {
 
   // Enemy counter attacks hero
   enemyAttack() {
+    console.log(`enemyAttack() was called`);
     let points = this._chosenEnemy.counterAttackPower;
     this._chosenHero.healthPoints -= points;
     this._gameAlert2 = `You sustained ${points} damage points`;
@@ -381,23 +392,39 @@ const gameProps = {
 
   // Test if Hero is defeated
   isHeroDefeated() {
-    if (this._chosenHero.healthPoints <= 0) {
+    if (this._chosenHero.healthPoints <= 0 &&
+        this._chosenEnemy.healthPoints > 0) 
+    {
       this._gameAlert1 = `You were defeated! Click 'RESET' to try again!`;
       this._gameAlert2 = "";
       return true;
-    } else {
+    } 
+    else
+    {
       return false;
     }
   },
 
   // Test if Enemy is defeated
   isEnemyDefeated() {
-    if (this._chosenEnemy.healthPoints <= 0) {
+    if (this._chosenEnemy.healthPoints <= 0 &&
+        this._chosenHero.healthPoints > 0)
+    {
       this._gameAlert1 = `You defeated ${this._enemy.name}`;
       this._gameAlert2 = "";
       return true;
-    } else {
+    } 
+    else 
+    {
       return false;
+    }
+  },
+
+  areAllDefeated() {
+    if (this._chosenEnemy.healthPoints <= 0 &&
+        this._chosenHero.healthPoints <= 0) 
+    {
+      this._gameAlert1 = `Both you and ${this._enemy.name} perished in battle.`;
     }
   },
 
@@ -407,7 +434,7 @@ const gameProps = {
 
   allEnemiesDefeated() {
     if (this.availableEnemies.length === 0 &&
-      this.enemy === {})
+        Object.keys(this.enemy).length === 0)
     {
       return true;
     } 
@@ -518,7 +545,7 @@ $(function() { // This line is shorthand for $( document ).ready(function() {...
   });
 
   $("#js-attack-reset-button").on('click', () => {
-    console.log(`Boba Fett was clicked!`);
+    console.log(`Attack/Reset button was clicked!`);
     gameEngine.controller("attack-reset");
   });
 });
