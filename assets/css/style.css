@@ -41,6 +41,17 @@ h3 {
   border-radius: 5px;
   max-width: 130px;
   max-height: 100px;
+  animation: fadein 1s ease-in;
+}
+
+#js-chosen-hero, 
+#js-chosen-enemy {
+  
+}
+
+#js-chosen-hero:hover, 
+#js-chosen-enemy:hover {
+  opacity: 1;
 }
 
 .min-section-height {
@@ -52,7 +63,7 @@ h3 {
 }
 
 .character:hover {
-  opacity: .5;
+  opacity: .8;
 }
 
 .section-border {
@@ -66,4 +77,14 @@ h3 {
   border-color: #fff;
   border-width: 2px;
   width: 108px;
+}
+
+@keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fadeout {
+  from { opacity: 1; }
+  to   { opacity: 0; }
 }
