@@ -2,8 +2,23 @@
  *  Controller - accepts input and converts it to commands for the model or view
  */
 
+// IMPORTANT! CALL THIS FUNCTION AT THE BOTTOM OF THIS FILE: 
+// gameEngine.initializeRound();
+
 // Pseudocode
 
+const gameEngine = {
+
+  // Set up new round of gameplay
+  initializeRound() {
+    let characters = availableCharacters._characterArray;
+    let characterCount = availableCharacters._characterArray.length;
+    // Loop over all available characters to load into game
+    for (let i = 0; i < characterCount; i++) {
+      gameProps.addAvailableCharacters(characters[i]);
+    }
+  }
+};
 
 /*
  *  View -  output representation of information
