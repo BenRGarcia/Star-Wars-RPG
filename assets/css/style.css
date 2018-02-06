@@ -44,11 +44,6 @@ h3 {
   animation: fadein 1s ease-in;
 }
 
-#js-chosen-hero, 
-#js-chosen-enemy {
-  
-}
-
 #js-chosen-hero:hover, 
 #js-chosen-enemy:hover {
   opacity: 1;
