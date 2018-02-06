@@ -2,6 +2,17 @@
  *  Controller - accepts input and converts it to commands for the model or view
  */
 
+/*
+ * HTML id's to listen for:
+ *   * js-
+ *   * js-
+ *   * js-
+ *   * js-
+ *   * js-
+ *   * js-
+ *   * js-
+ */
+
 // IMPORTANT! CALL THIS FUNCTION AT THE BOTTOM OF THIS FILE: 
 // gameEngine.initializeRound();
 
@@ -38,7 +49,7 @@ const DOM = {
           newImg.attr("src", gameProps.availableCharacters[i].src);
           newImg.attr("alt", gameProps.availableCharacters[i].alt);
           newImg.attr("class", "img-fluid character mb-2");
-          newImg.attr("id", "js-hero-" + (i + 1));
+          newImg.attr("id", gameProps.availableCharacters[i].htmlId);
           $('#js-hero-section').append(newImg);
         }
         break;
@@ -47,6 +58,7 @@ const DOM = {
       case "heroChosen":
         $('#js-chosen-hero').attr("src", gameProps.hero.src);
         $('#js-chosen-hero').attr("alt", gameProps.hero.alt);
+        // $('#js-chosen-hero').attr("id", gameProps.hero.htmlId);
         $('#js-hero-section').empty();
         break;
 
@@ -56,7 +68,8 @@ const DOM = {
           let newImg = $("<img>");
           newImg.attr("src", gameProps.availableEnemies[i].src);
           newImg.attr("alt", gameProps.availableEnemies[i].alt);
-          newImg.attr("id", "js-enemy-" + (i + 1));
+          newImg.attr("id", gameProps.availableEnemies[i].htmlId);
+          $('#js-enemy-section').append(newImg);
         }
         break;
 
@@ -64,6 +77,7 @@ const DOM = {
       case "enemyChosen":
         $('#js-chosen-enemy').attr("src", gameProps.enemy.src);
         $('#js-chosen-enemy').attr("alt", gameProps.enemy.alt);
+        // $('#js-chosen-enemy').attr("id", gameProps.enemy.htmlId);
         this.render('chooseEnemy');
         break;
 
@@ -84,8 +98,10 @@ const DOM = {
         this.render("chooseHero");
         $('#js-chosen-hero').attr("src", "./assets/images/question.svg");
         $('#js-chosen-hero').attr("alt", "Picture of ...");
+
         $('#js-chosen-enemy').attr("src", "./assets/images/question.svg");
         $('#js-chosen-enemy').attr("alt", "Picture of ...");
+
         break;
 
       default:
@@ -276,6 +292,7 @@ const availableCharacters = {
   _characterArray: [
     {
       name: "Boba Fett",
+      htmlId: "js-boba-fett",
       healthPoints: 100,
       baseAttackPower: 6,
       attackPower: 6,
@@ -285,6 +302,7 @@ const availableCharacters = {
     },
     {
       name: "Darth Maul",
+      htmlId: "js-darth-maul",
       healthPoints: 120,
       baseAttackPower: 6,
       attackPower: 6,
@@ -294,6 +312,7 @@ const availableCharacters = {
     },
     {
       name: "Hans Solo",
+      htmlId: "js-hans-solo",
       healthPoints: 150,
       baseAttackPower: 6,
       attackPower: 6,
@@ -303,6 +322,7 @@ const availableCharacters = {
     },
     {
       name: "Yoda",
+      htmlId: "js-yoda",
       healthPoints: 180,
       baseAttackPower: 6,
       attackPower: 6,
