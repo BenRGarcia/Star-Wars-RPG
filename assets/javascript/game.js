@@ -440,9 +440,9 @@ const characterBank = {
     {
       name: "Boba Fett",
       htmlId: "js-boba-fett",
-      healthPoints: 120,
-      baseAttackPower: 6,
-      attackPower: 6,
+      healthPoints: 130,
+      baseAttackPower: 8,
+      attackPower: 8,
       counterAttackPower: 10,
       src: "./assets/images/boba.jpg",
       alt: "Picture of Boba Fett"
@@ -451,29 +451,29 @@ const characterBank = {
       name: "Darth Maul",
       htmlId: "js-darth-maul",
       healthPoints: 140,
-      baseAttackPower: 6,
-      attackPower: 6,
-      counterAttackPower: 12,
+      baseAttackPower: 8,
+      attackPower: 8,
+      counterAttackPower: 11,
       src: "./assets/images/darth.jpg",
       alt: "Picture of Darth Maul"
     },
     {
       name: "Hans Solo",
       htmlId: "js-hans-solo",
-      healthPoints: 160,
-      baseAttackPower: 6,
-      attackPower: 6,
-      counterAttackPower: 14,
+      healthPoints: 150,
+      baseAttackPower: 8,
+      attackPower: 8,
+      counterAttackPower: 12,
       src: "./assets/images/hans.jpg",
       alt: "Picture of Hans Solo"
     },
     {
       name: "Yoda",
       htmlId: "js-yoda",
-      healthPoints: 180,
-      baseAttackPower: 6,
-      attackPower: 6,
-      counterAttackPower: 16,
+      healthPoints: 160,
+      baseAttackPower: 8,
+      attackPower: 8,
+      counterAttackPower: 13,
       src: "./assets/images/yoda.jpg",
       alt: "Picture of Yoda"
     }
