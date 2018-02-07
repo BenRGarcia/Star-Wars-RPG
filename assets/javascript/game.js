@@ -20,7 +20,7 @@ const DOM = {
           let newImg1 = $("<img>");
           newImg1.attr("src", gameProps.availableCharacters[i].src);
           newImg1.attr("alt", gameProps.availableCharacters[i].alt);
-          newImg1.attr("class", "img-fluid character mb-2");
+          newImg1.attr("class", "img-fluid character col ml-1 mr-1 mb-1");
           newImg1.attr("id", gameProps.availableCharacters[i].htmlId);
           $('#js-hero-section').append(newImg1);
         }
@@ -32,7 +32,8 @@ const DOM = {
         let newImg2 = $("<img>");
         newImg2.attr("src", gameProps.chosenHero.src);
         newImg2.attr("alt", gameProps.chosenHero.alt);
-        newImg2.attr("class", "img-fluid character mb-2");
+        newImg2.attr("class", "img-fluid character col");
+        newImg2.attr("id", gameProps.chosenHero.htmlId);
         $('#js-chosen-hero').append(newImg2);
         $('#js-hero-hp').text(gameProps.chosenHero.healthPoints);
         this.render("chooseEnemy");
@@ -44,7 +45,7 @@ const DOM = {
           let newImg3 = $("<img>");
           newImg3.attr("src", gameProps.availableEnemies[i].src);
           newImg3.attr("alt", gameProps.availableEnemies[i].alt);
-          newImg3.attr("class", "img-fluid character mb-2");
+          newImg3.attr("class", "img-fluid character col ml-1 mr-1 mb-1");
           newImg3.attr("id", gameProps.availableEnemies[i].htmlId);
           $('#js-enemy-section').append(newImg3);
         }
@@ -56,7 +57,7 @@ const DOM = {
         let newImg4 = $("<img>");
         newImg4.attr("src", gameProps.chosenEnemy.src);
         newImg4.attr("alt", gameProps.chosenEnemy.alt);
-        newImg4.attr("class", "img-fluid character mb-2");
+        newImg4.attr("class", "img-fluid character col");
         newImg4.attr("id", gameProps.chosenEnemy.htmlId);
         $('#js-chosen-enemy').append(newImg4);
         $('#js-enemy-hp').text(gameProps.chosenEnemy.healthPoints);
