@@ -204,11 +204,6 @@ const gameEngine = {
           this.setResetButton();
         }
 
-
-
-
-
-
         // Test if only enemy defeated
         if (gameProps.isEnemyDefeated()) {
           // Enemy was defeated
@@ -235,17 +230,6 @@ const gameEngine = {
           // Set 'RESET!' button
           this.setResetButton();
         }
-
-
-
-
-
-
-
-
-
-
-
       }
     }
   },
