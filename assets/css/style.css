@@ -25,6 +25,10 @@ h3 {
   min-height: 66px;
 }
 
+.game-output > p {
+  animation: fadein 1s ease-in;
+}
+
 .light-bg {
   background: rgba(30,30,30,.5);
   border-radius: 5px;
@@ -44,8 +48,13 @@ h3 {
   animation: fadein 1s ease-in;
 }
 
-#js-chosen-hero:hover, 
-#js-chosen-enemy:hover {
+#js-chosen-hero, 
+#js-chosen-enemy {
+  min-height: 98px;
+}
+
+#js-chosen-hero > img:hover, 
+#js-chosen-enemy > img:hover {
   opacity: 1;
 }
 
