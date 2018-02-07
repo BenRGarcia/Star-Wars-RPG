@@ -41,12 +41,11 @@ h3 {
 }
 
 .character {
-  background: #222;
+  /*background: #222;*/
   border: 2px solid yellow;
   border-radius: 5px;
   max-width: 130px;
   max-height: 100px;
-  animation: fadein 1s ease-in;
 }
 
 #js-chosen-hero, 
@@ -93,3 +92,38 @@ h3 {
   from { opacity: 1; }
   to   { opacity: 0; }
 }
+
+
+/* Test Area */
+#js-boba-fett {
+  animation: fadein 300ms ease-in;
+}
+
+#js-darth-maul {
+  animation: fadein 600ms ease-in;
+}
+
+#js-hans-solo {
+  animation: fadein 900ms ease-in;
+}
+
+#js-yoda {
+  animation: fadein 1200ms ease-in;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
