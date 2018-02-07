@@ -63,7 +63,6 @@ const DOM = {
         this.render("chooseEnemy");
         break;
 
-
       case 'updateHP':
         $('#js-hero-hp').text(gameProps.chosenHero.healthPoints);
         $('#js-enemy-hp').text(gameProps.chosenEnemy.healthPoints);
@@ -106,7 +105,6 @@ const DOM = {
         break;
 
       default:
-        console.log(`Component ${component} failed to render!`);
         break;
     }
   }
@@ -138,7 +136,6 @@ const gameEngine = {
     for(let i = 0; i < gameProps.availableEnemies.length; i++) {
       availableChars.push(gameProps.availableEnemies[i].name);
     }
-    console.log(`gameEngine.character() availableChars array is: ${availableChars}`);
 
     // Screen out character clicks which are no longer available for selection
     if (availableChars.indexOf(targetClicked) !== -1) {
@@ -168,12 +165,7 @@ const gameEngine = {
             DOM.render("enemyChosen");
             DOM.render("updateAlerts");
           }
-          
-          
-        } else {/* Do nothing b/c hero and enemy presently chosen */}
-      }
-      else {
-        console.log(`Game did nothing with that character click b/c hero and enemy already chosen.`);
+        }
       }
     }
   },
@@ -188,7 +180,6 @@ const gameEngine = {
     if ($("#js-attack-reset-button").text() === "RESET!") {
 
       // Reset Game
-      // gameProps.resetGame();
       this.initializeRound();
     }
 
@@ -204,7 +195,6 @@ const gameEngine = {
         DOM.render("updateHP");
         DOM.render("updateAlerts");
 
-
         // Test if only hero defeated
         if (gameProps.isHeroDefeated()) {
           // Hero was defeated
@@ -212,8 +202,11 @@ const gameEngine = {
 
           // set 'RESET!' button
           this.setResetButton();
-
         }
+
+
+
+
 
 
         // Test if only enemy defeated
@@ -237,20 +230,29 @@ const gameEngine = {
         // Test if hero & enemy defeated
         if (gameProps.areBothDefeated()) {
           // Hero and Enemy were slain in the same round
+          DOM.render("updateAlerts");
 
           // Set 'RESET!' button
           this.setResetButton();
         }
+
+
+
+
+
+
+
+
+
+
+
       }
     }
-
   },
 
   setResetButton() {
-
     // Call DOM.render() to change text of ATTACK! button to say RESET!
     DOM.render("toggleReset");
-
   },
 
   initializeRound() {
@@ -259,6 +261,7 @@ const gameEngine = {
 
     // Load characters to gameProps from characterBank
     for (let i = 0; i < characterBank.characterArray.length; i++) {
+      // Clone objects
       let clonedObj = JSON.parse(JSON.stringify(characterBank.characterArray[i]));
       gameProps.addAvailableCharacters(clonedObj);
     }
@@ -289,7 +292,6 @@ const gameProps = {
   // Add characters to availableCharacters array (controller to use 'for' loop)
   addAvailableCharacters(characterObj) {
       this.availableCharacters.push(characterObj);
-      console.log(`${characterObj.name} was added to gameProps.availableCharacters array`);
       return characterObj;
   },
 
@@ -304,7 +306,6 @@ const gameProps = {
         this.availableCharacters.splice(i, 1);
         this.chosenHero = hero;
         this.addRemainingToAvailableEnemies();
-        console.log(`The chosen hero was ${hero.name}`);
         return hero;
       }
     }
@@ -314,14 +315,8 @@ const gameProps = {
   addRemainingToAvailableEnemies() {
     for (let i = 0; i < this.availableCharacters.length; i++) {
       this.availableEnemies.push(this.availableCharacters[i]);
-      console.log(`${this.availableCharacters[i]} was just added to the gameProps.availableEnemies array`);
     }
     this.availableCharacters = [];
-    console.log(`gameProps.availableCharacters should now be an empty array,`);
-    console.log(`its current contents are:`);
-    for (let i = 0; i < this.availableCharacters.length; i++) {
-      console.log(`${i + 1}) ${this.availableCharacters[i].name}`);
-    }
     return this.availableCharacters;
   },
 
@@ -333,7 +328,6 @@ const gameProps = {
         this.gameAlert1 = `You have chosen ${enemy.name} as your enemy`;
         this.gameAlert2 = `Click ATTACK! to fight!`;
         this.chosenEnemy = enemy;
-        console.log(`${enemy.name} was just chosen as the enemy.`);
         this.removeFromAvailableEnemies(i);
         return enemy;
       }
@@ -343,28 +337,20 @@ const gameProps = {
   // Automatically called by chosenEnemy() to remove chosen enemy from available enemy array
   removeFromAvailableEnemies(index) {
     this.availableEnemies.splice(index, 1);
-    console.log(`${this.chosenEnemy.name} should have been removed from the gameProps.availableEnemies array,`);
-    console.log(`gameProps.availableEnemies array's current contents are:`);
-    for (let i = 0; i < this.availableEnemies.length; i++) {
-      console.log(`${i + 1}) ${this.availableEnemies[i].name}`);
-    }
   },
 
   // Hero attacks, Enemy counter attacks
   commenceAttack() {
-    console.log(`Attack commenced!`);
     // Attacks not allowed if hero or enemy defeated
     if (this.chosenHero.healthPoints > 0 &&
         this.chosenEnemy.healthPoints > 0)
     {
-      console.log(`Before attack, ${this.chosenEnemy.name}'s healthPoints were at: ${this.chosenEnemy.healthPoints}`);
+      // Hero attacks enemy
       this.chosenEnemy.healthPoints -= this.chosenHero.attackPower;
       this.gameAlert1 = `You inflicted ${this.chosenHero.attackPower} damage on ${this.chosenEnemy.name}!`;
-      console.log(`After attack, ${this.chosenEnemy.name}'s healthPoints are at: ${this.chosenEnemy.healthPoints}`);
-      console.log(`Before attack, ${this.chosenHero.name}'s healthPoints were at: ${this.chosenHero.healthPoints}`);
+      // Enemy attacks hero
       this.chosenHero.healthPoints -= this.chosenEnemy.counterAttackPower;
       this.gameAlert2 = `${this.chosenEnemy.name} inflicted ${this.chosenEnemy.counterAttackPower} damage on you!`;
-      console.log(`After attack, ${this.chosenHero.name}'s healthPoints are at: ${this.chosenHero.healthPoints}`);
       this.increaseHeroAttackPower();
     }
   },
@@ -372,7 +358,6 @@ const gameProps = {
   // Automatically called by gameProps.heroAttack();
   increaseHeroAttackPower() {
     this.chosenHero.attackPower += this.chosenHero.baseAttackPower;
-    console.log(`${this.chosenHero.name}'s attackPower increased by ${this.chosenHero.baseAttackPower} and is now: ${this.chosenHero.attackPower}`);
   },
 
   // Test if Hero is defeated
@@ -380,13 +365,11 @@ const gameProps = {
     if (this.chosenHero.healthPoints <= 0 &&
         this.chosenEnemy.healthPoints > 0) 
     {
-      console.log(`Hero ${this.chosenHero.name} was defeated!`);
       this.gameAlert1 = `You were defeated in battle!`;
       this.gameAlert2 = `Click RESET! to try again!`;
       return true;
     } 
     else {
-      console.log(`Hero ${this.chosenHero.name} is not defeated!`);
       return false;
     }
   },
@@ -396,13 +379,11 @@ const gameProps = {
     if (this.chosenEnemy.healthPoints <= 0 &&
         this.chosenHero.healthPoints > 0)
     {
-      console.log(`Enemy ${this.chosenEnemy.name} was defeated!`);
       this.gameAlert1 = `You defeated ${this.chosenEnemy.name}!`;
       this.gameAlert2 = `Choose another enemy to battle!`;
       return true;
     } 
     else {
-      console.log(`Enemy ${this.chosenEnemy.name} is not defeated!`);
       return false;
     }
   },
@@ -411,34 +392,28 @@ const gameProps = {
     if (this.chosenEnemy.healthPoints <= 0 &&
         this.chosenHero.healthPoints <= 0) 
     {
-      console.log(`${this.chosenHero.name} and ${this.chosenEnemy.name} were both slain in battle`);
       this.gameAlert1 = `Both you and ${this.chosenEnemy.name} were slain in battle!`;
       this.gameAlert2 = `Click RESET! to try again!`;
       return true;
     }
     else {
-      console.log(`${this.chosenHero.name} and ${this.chosenEnemy.name} were NOT both slain in battle`);
       return false;
     }
   },
 
   ejectDefeatedEnemy() {
     this.chosenEnemy = {};
-    console.log(`gameProps.chosenEnemy object reset to empty object.`);
-    console.log(`To verify, the number of its keys (which should be zero) is: ${Object.keys(this.chosenEnemy).length}`);
   },
 
   allEnemiesDefeated() {
     if (this.availableEnemies.length === 0 &&
-        Object.keys(this.enemy).length === 0)
+        Object.keys(this.chosenEnemy).length === 0)
     {
-      console.log(`All enemies have been defeated`);
       this.gameAlert1 = `All enemies defeated!`;
       this.gameAlert2 = `You have won the game!`;
       return true;
     } 
     else {
-      console.log(`All enemies have NOT been defeated`);
       return false;
     }
   },
@@ -465,7 +440,7 @@ const characterBank = {
     {
       name: "Boba Fett",
       htmlId: "js-boba-fett",
-      healthPoints: 100,
+      healthPoints: 120,
       baseAttackPower: 6,
       attackPower: 6,
       counterAttackPower: 10,
@@ -475,20 +450,20 @@ const characterBank = {
     {
       name: "Darth Maul",
       htmlId: "js-darth-maul",
-      healthPoints: 120,
+      healthPoints: 140,
       baseAttackPower: 6,
       attackPower: 6,
-      counterAttackPower: 15,
+      counterAttackPower: 12,
       src: "./assets/images/darth.jpg",
       alt: "Picture of Darth Maul"
     },
     {
       name: "Hans Solo",
       htmlId: "js-hans-solo",
-      healthPoints: 150,
+      healthPoints: 160,
       baseAttackPower: 6,
       attackPower: 6,
-      counterAttackPower: 20,
+      counterAttackPower: 14,
       src: "./assets/images/hans.jpg",
       alt: "Picture of Hans Solo"
     },
@@ -498,7 +473,7 @@ const characterBank = {
       healthPoints: 180,
       baseAttackPower: 6,
       attackPower: 6,
-      counterAttackPower: 25,
+      counterAttackPower: 16,
       src: "./assets/images/yoda.jpg",
       alt: "Picture of Yoda"
     }
